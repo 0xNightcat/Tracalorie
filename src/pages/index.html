@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
+    <link rel="shortcut icon" href="./images/billiard.png">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="navbar">
+            <h1 class="title display-4">Tracalories</h1>
+            <button id="clear-all" class="btn btn-danger px-4">Clear All</button>
+        </div>
+    </div>
+
+    <!-- MAIN SECTION -->
+    <section id="main" class="mt-5">
+        <div class="container">
+            <div class="card">
+                <div class="alert"></div>
+                <div class="card-body">
+                    <h2 class="card-title">Add Meal / Calories</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="content left-side">
+                                <div class="form-group">
+                                    <label>Meal</label>
+                                    <input type="text" id="add-input" class="form-control" placeholder="Add meal">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="content right-side">
+                                <div class="form-group">
+                                    <label>Calorie</label>
+                                    <input type="text" id="calorie-input" class="form-control" placeholder="Add Calorie">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons d-flex flex-row justify-content-between">
+                        <div class="left">
+                            <button class="btn btn-add btn-primary"><i class="fas fa-plus"></i>Add Meal</button>
+                            <button class="btn btn-update btn-warning"><i class="fas fa-edit"></i>Update Meal</button>
+                            <button class="btn btn-delete btn-danger"><i class="fas fa-trash"></i>Delete Meal</button>
+                        </div>
+                        <div class="right">
+                            <button class="btn btn-cancel btn-info"><i class="fas fa-chevron-left"></i>Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOW DETAILS -->
+    <section id="show-details">
+        <div class="container">
+            <div class="total-calories text-center">
+                <h1>Total Calories : <span id="total-cal">0</span></h1>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-11">
+                    <div class="items-info">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
