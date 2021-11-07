@@ -7,6 +7,9 @@ let uiFunc = (() => {
         constructor() {
             this.alert_elem = document.querySelector('.card .alert');
             this.itemsInfo_elem = document.querySelector('#show-details .items-info');
+            this.btn_add = document.querySelector('.buttons .left .btn-add');
+            this.btn_update = document.querySelector('.buttons .left .btn-update');
+            this.btn_delete = document.querySelector('.buttons .left .btn-delete');
         }
 
         // show message
@@ -54,6 +57,16 @@ let uiFunc = (() => {
             }
         }
 
+        // buttons state
+        buttonsState(state) {
+            if (state == 'add') {
+                this.btn_delete.style.display = 'none';
+                this.btn_update.style.display = 'none';
+            } else if (state == 'edit') {
+                this.btn_add.style.display = 'none';
+            }
+        }
+
     }
 
     // class instance
@@ -65,6 +78,9 @@ let uiFunc = (() => {
         },
         getMealsFromLocalStorage: function() {
             return ui.getMealsFromLocalStorage();
+        },
+        buttonsState: function(state) {
+            return ui.buttonsState(state);
         }
     }
 

@@ -48,5 +48,7 @@ function addMealFunc(e) {
 
 // onLoadFunc
 function onLoadFunc() {
+    uiFunc.buttonsState('add');
+
     uiFunc.getMealsFromLocalStorage();
 }
