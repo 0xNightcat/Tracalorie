@@ -49,7 +49,7 @@ let uiFunc = (() => {
                     div.innerHTML = `
                     <div class="card-body">
                         <span class="meal-name">${item.meal}</span>
-                        <span class="calorie badge badge-danger ml-3">Calorie : ${item.calorie}</span>
+                        <span class="calorie badge badge-danger ml-3"><span>Calorie :</span><span id="cal-amount">${item.calorie}</span></span>
                         <a href="#!" class="btn-edit">
                         <i class="fas fa-edit"></i>
                         </a>

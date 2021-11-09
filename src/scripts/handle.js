@@ -6,6 +6,8 @@ let handleFunc = (() => {
     class Handle {
         constructor() {
             this.itemsInfo_elem = document.querySelector('#show-details .items-info');
+            this.add_input = document.querySelector('#add-input');
+            this.calorie_input = document.querySelector('#calorie-input');
         }
 
         // add meal
@@ -18,7 +20,7 @@ let handleFunc = (() => {
             div.innerHTML = `
             <div class="card-body">
                 <span class="meal-name">${meal}</span>
-                <span class="calorie badge badge-danger ml-3">Calorie : ${calorie}</span>
+                <span class="calorie badge badge-danger ml-3"><span>Calorie :</span><span id="cal-amount">${item.calorie}</span></span>
                 <a href="#!" class="btn-edit">
                 <i class="fas fa-edit"></i>
                 </a>
@@ -50,6 +52,19 @@ let handleFunc = (() => {
             }
         }
 
+        // get infos into values
+        setBackValuesToInputs(event) {
+            // get meal & calorie of edited item
+            const listItemBody = event.target.parentElement.parentElement;
+
+            const mealName = listItemBody.querySelector('.meal-name').textContent;
+            const calorieMount = parseInt(listItemBody.querySelector('#cal-amount').textContent);
+
+            // set back infos into input values
+            this.add_input.value = mealName;
+            this.calorie_input.value = calorieMount;
+        }
+
     }
 
     // class instance
@@ -61,6 +76,9 @@ let handleFunc = (() => {
         },
         addMealToLocalStorage: function(meal, calorie) {
             return handle.addMealToLocalStorage(meal, calorie);
+        },
+        setBackValuesToInputs: function(event) {
+            return handle.setBackValuesToInputs(event);
         }
     }
 

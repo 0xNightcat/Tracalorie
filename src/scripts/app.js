@@ -63,7 +63,11 @@ function addMealFunc(e) {
 // editBtnFunc
 function editBtnFunc(e) {
     if (e.target.classList.contains('fa-edit')) {
+        // change button states to eition
         uiFunc.buttonsState('edit');
+
+        // set back ifos from edited item
+        handleFunc.setBackValuesToInputs(e);
     }
 }
 
