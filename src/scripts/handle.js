@@ -14,31 +14,38 @@ let handleFunc = (() => {
             const div = document.createElement('div');
             div.classList = 'card';
 
+            // create card items
             div.innerHTML = `
             <div class="card-body">
                 <span class="meal-name">${meal}</span>
                 <span class="calorie badge badge-danger ml-3">Calorie : ${calorie}</span>
-                <a href="#!">
-                <span class="edit float-right"><i class="fas fa-pencil-alt"></i></span>
+                <a href="#!" class="btn-edit">
+                <i class="fas fa-edit"></i>
                 </a>
             </div>
             `
 
+            // append items into list
             this.itemsInfo_elem.appendChild(div);
         }
 
         // add meal to local storage
         addMealToLocalStorage(meal, calorie) {
             let array;
+            // check if local storage is null
             if (localStorage.getItem('Meals') == null) {
                 array = [];
                 array.push({ meal, calorie });
+                // fill local storage with items
                 localStorage.setItem('Meals', JSON.stringify(array));
             } else {
+                // parse local storage item
                 let parsedKey = JSON.parse(localStorage.getItem('Meals'));
 
+                // fill again into item
                 parsedKey.push({ meal, calorie });
 
+                // set new items into parsed local storage
                 localStorage.setItem('Meals', JSON.stringify(parsedKey));
             }
         }

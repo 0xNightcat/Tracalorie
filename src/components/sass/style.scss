@@ -1,6 +1,5 @@
 @import './fonts.scss';
 @import '~bootstrap/scss/bootstrap';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
 * {
     font-family: iranyekanNormal;
 }
@@ -107,8 +106,9 @@ body {
                             font-size: 15px;
                             padding: 7px;
                         }
-                        .edit {
-                            font-size: 20px;
+                        .btn-edit {
+                            float: right;
+                            font-size: 21px;
                         }
                     }
                 }

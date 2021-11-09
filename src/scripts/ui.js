@@ -26,15 +26,18 @@ let uiFunc = (() => {
             setTimeout(() => {
                 this.alert_elem.style.opacity = '0';
                 this.alert_elem.style.visibility = 'hidden';
+                this.alert_elem.classList = 'alert';
             }, 2000);
         }
 
         // get meals from local storage
         getMealsFromLocalStorage() {
             let array;
+            // check if local storage is null
             if (localStorage.getItem('Meals') == null) {
                 array = [];
             } else {
+                // parse local storage item 
                 let parsedKey = JSON.parse(localStorage.getItem('Meals'));
 
                 parsedKey.forEach(item => {
@@ -42,16 +45,18 @@ let uiFunc = (() => {
                     const div = document.createElement('div');
                     div.classList = 'card';
 
+                    // create card item for meals
                     div.innerHTML = `
-                            <div class="card-body">
-                                <span class="meal-name">${item.meal}</span>
-                                <span class="calorie badge badge-danger ml-3">Calorie : ${item.calorie}</span>
-                                <a href="#!">
-                                    <span class="edit float-right"><i class="fas fa-pencil-alt"></i></span>
-                                </a>
-                            </div>
-                            `
+                    <div class="card-body">
+                        <span class="meal-name">${item.meal}</span>
+                        <span class="calorie badge badge-danger ml-3">Calorie : ${item.calorie}</span>
+                        <a href="#!" class="btn-edit">
+                        <i class="fas fa-edit"></i>
+                        </a>
+                    </div>
+                    `
 
+                    // append items from local storage into list
                     this.itemsInfo_elem.appendChild(div);
                 });
             }
@@ -59,11 +64,15 @@ let uiFunc = (() => {
 
         // buttons state
         buttonsState(state) {
+            // check buttons state to add or edit
             if (state == 'add') {
+                this.btn_add.style.display = 'block';
                 this.btn_delete.style.display = 'none';
                 this.btn_update.style.display = 'none';
             } else if (state == 'edit') {
                 this.btn_add.style.display = 'none';
+                this.btn_delete.style.display = 'inline-block';
+                this.btn_update.style.display = 'inline-block';
             }
         }
 
