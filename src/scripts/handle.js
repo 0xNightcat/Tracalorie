@@ -8,19 +8,25 @@ let handleFunc = (() => {
             this.itemsInfo_elem = document.querySelector('#show-details .items-info');
             this.add_input = document.querySelector('#add-input');
             this.calorie_input = document.querySelector('#calorie-input');
+            this.total_calories = document.querySelector('#total-cal');
+            this.itemId = 0;
         }
 
         // add meal
         addMeal(meal, calorie) {
+            // create id
+            this.itemId = (this.itemId + 1);
+
             // create card elem
             const div = document.createElement('div');
             div.classList = 'card';
+            div.id = this.itemId;
 
             // create card items
             div.innerHTML = `
             <div class="card-body">
                 <span class="meal-name">${meal}</span>
-                <span class="calorie badge badge-danger ml-3"><span>Calorie :</span><span id="cal-amount">${item.calorie}</span></span>
+                <span class="calorie badge badge-danger ml-3"><span>Calorie :</span><span id="cal-amount">${calorie}</span></span>
                 <a href="#!" class="btn-edit">
                 <i class="fas fa-edit"></i>
                 </a>
@@ -32,12 +38,12 @@ let handleFunc = (() => {
         }
 
         // add meal to local storage
-        addMealToLocalStorage(meal, calorie) {
+        addMealToLocalStorage(meal, calorie, id) {
             let array;
             // check if local storage is null
             if (localStorage.getItem('Meals') == null) {
                 array = [];
-                array.push({ meal, calorie });
+                array.push({ meal, calorie, id });
                 // fill local storage with items
                 localStorage.setItem('Meals', JSON.stringify(array));
             } else {
@@ -45,7 +51,7 @@ let handleFunc = (() => {
                 let parsedKey = JSON.parse(localStorage.getItem('Meals'));
 
                 // fill again into item
-                parsedKey.push({ meal, calorie });
+                parsedKey.push({ meal, calorie, id });
 
                 // set new items into parsed local storage
                 localStorage.setItem('Meals', JSON.stringify(parsedKey));
@@ -65,6 +71,38 @@ let handleFunc = (() => {
             this.calorie_input.value = calorieMount;
         }
 
+        // total calories calculation
+        totalCaloriesCalc(calorie) {
+            // get parsed values
+            let totalCalories = parseInt(this.total_calories.textContent);
+            let calorieValue = parseInt(calorie);
+
+            // sum calories
+            totalCalories = (totalCalories + calorieValue);
+
+            // append sum into total calories
+            this.total_calories.textContent = totalCalories;
+        }
+
+        // get total calories from local storage
+        getTotalCalFromLs() {
+            // get parsed key from local storage
+            const parsedKey = JSON.parse(localStorage.getItem('Meals'));
+            const keyArray = Array.from(parsedKey);
+
+            keyArray.forEach(item => {
+                // get parsed values
+                let totalCalories = parseInt(this.total_calories.textContent);
+                let calories = parseInt(item.calorie);
+
+                // sum calories
+                totalCalories = (totalCalories + calories);
+
+                // append sum into total calories
+                this.total_calories.textContent = totalCalories;
+            })
+        }
+
     }
 
     // class instance
@@ -74,11 +112,17 @@ let handleFunc = (() => {
         addMeal: function(meal, calorie) {
             return handle.addMeal(meal, calorie);
         },
-        addMealToLocalStorage: function(meal, calorie) {
-            return handle.addMealToLocalStorage(meal, calorie);
+        addMealToLocalStorage: function(meal, calorie, id) {
+            return handle.addMealToLocalStorage(meal, calorie, id);
         },
         setBackValuesToInputs: function(event) {
             return handle.setBackValuesToInputs(event);
+        },
+        totalCaloriesCalc: function(calorie) {
+            return handle.totalCaloriesCalc(calorie);
+        },
+        getTotalCalFromLs: function() {
+            return handle.getTotalCalFromLs();
         }
     }
 

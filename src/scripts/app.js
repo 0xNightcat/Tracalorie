@@ -57,6 +57,9 @@ function addMealFunc(e) {
 
         // add meals into local storage
         handleFunc.addMealToLocalStorage(addInputValue, calorieInputValue);
+
+        // calculate total calories
+        handleFunc.totalCaloriesCalc(calorieInputValue);
     }
 }
 
@@ -78,6 +81,9 @@ function onLoadFunc() {
 
     // get meals from local storage
     uiFunc.getMealsFromLocalStorage();
+
+    // get total calories from local storage
+    handleFunc.getTotalCalFromLs();
 }
 
 // backBtnFunc
