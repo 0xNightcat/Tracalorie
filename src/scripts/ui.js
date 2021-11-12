@@ -44,6 +44,7 @@ let uiFunc = (() => {
                     // create card elem
                     const div = document.createElement('div');
                     div.classList = 'card';
+                    div.id = item.id;
 
                     // create card item for meals
                     div.innerHTML = `

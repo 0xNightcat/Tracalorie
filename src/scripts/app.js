@@ -56,7 +56,7 @@ function addMealFunc(e) {
         uiFunc.showAlert('Meal Successfully Added', 'info');
 
         // add meals into local storage
-        handleFunc.addMealToLocalStorage(addInputValue, calorieInputValue);
+        handleFunc.addMealToLocalStorage(addInputValue, calorieInputValue, handleFunc.itemId());
 
         // calculate total calories
         handleFunc.totalCaloriesCalc(calorieInputValue);
@@ -84,6 +84,9 @@ function onLoadFunc() {
 
     // get total calories from local storage
     handleFunc.getTotalCalFromLs();
+
+    // get max id and store into itemId
+    handleFunc.getMaxId();
 }
 
 // backBtnFunc

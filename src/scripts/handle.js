@@ -58,6 +58,22 @@ let handleFunc = (() => {
             }
         }
 
+        // get biggest id
+        getMaxId() {
+            // get all cards
+            const cards = this.itemsInfo_elem.querySelectorAll('.card');
+            const cardsArray = Array.from(cards);
+
+            // get last item of card
+            const lastCard = cardsArray.slice(cardsArray.length - 1);
+
+            // get last card id
+            const parseCardId = parseInt(lastCard[0].id);
+
+            // store max id into id keeper
+            this.itemId = parseCardId;
+        }
+
         // get infos into values
         setBackValuesToInputs(event) {
             // get meal & calorie of edited item
@@ -123,6 +139,12 @@ let handleFunc = (() => {
         },
         getTotalCalFromLs: function() {
             return handle.getTotalCalFromLs();
+        },
+        itemId: function() {
+            return handle.itemId;
+        },
+        getMaxId: function() {
+            return handle.getMaxId();;
         }
     }
 
