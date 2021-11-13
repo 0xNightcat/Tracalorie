@@ -10,6 +10,7 @@ const back_button = document.querySelector('.buttons .right .btn');
 const add_input = document.querySelector('#add-input');
 const calorie_input = document.querySelector('#calorie-input');
 const items_card = document.querySelector('.items-info');
+const buttons = document.querySelector('.buttons');
 
 
 
@@ -29,6 +30,9 @@ function allEventListeners() {
 
     // cancel eition
     back_button.addEventListener('click', backBtnFunc);
+
+    // buttons delete and update function
+    buttons.addEventListener('click', buttonsFunc);
 
 }
 
@@ -71,6 +75,8 @@ function editBtnFunc(e) {
 
         // set back ifos from edited item
         handleFunc.setBackValuesToInputs(e);
+
+        handleFunc.currentCardIdSave(e);
     }
 }
 
@@ -97,4 +103,18 @@ function backBtnFunc(e) {
 
     // change buttons state
     uiFunc.buttonsState('add');
+}
+
+// buttonsFunc
+function buttonsFunc(e) {
+    if (e.target.classList.contains('btn-delete')) {
+        // remove card from list
+        handleFunc.deleteCard();
+
+        // remove card from local storage
+        handleFunc.removeCardFromLocalStorage();
+
+        // change total calorie value
+        handleFunc.changeTotalCalValue();
+    }
 }
