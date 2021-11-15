@@ -3,7 +3,6 @@ import uiFunc from './ui';
 import handleFunc from './handle';
 
 
-
 // variables
 const addMeal_button = document.querySelector('.buttons .btn-add');
 const back_button = document.querySelector('.buttons .right .btn');
@@ -11,7 +10,8 @@ const add_input = document.querySelector('#add-input');
 const calorie_input = document.querySelector('#calorie-input');
 const items_card = document.querySelector('.items-info');
 const buttons = document.querySelector('.buttons');
-
+const clearAll_button = document.querySelector('#clear-all');
+const currentCardElement = [];
 
 
 // call EventListeners
@@ -34,13 +34,16 @@ function allEventListeners() {
     // buttons delete and update function
     buttons.addEventListener('click', buttonsFunc);
 
+    // clear all items
+    clearAll_button.addEventListener('click', clearAllFunc);
+
 }
 
 
 // functions //
 
 // addMealFunc
-function addMealFunc(e) {
+function addMealFunc() {
     // get input values
     let addInputValue = add_input.value;
     let calorieInputValue = calorie_input.value;
@@ -76,7 +79,17 @@ function editBtnFunc(e) {
         // set back ifos from edited item
         handleFunc.setBackValuesToInputs(e);
 
+        // save current card id
         handleFunc.currentCardIdSave(e);
+
+        // get card element
+        const cardElement = e.target.parentElement.parentElement.parentElement;
+        currentCardElement.push(cardElement);
+
+        // store new total calorie
+        const lastCardElement = currentCardElement.slice(currentCardElement.length - 1);
+        handleFunc.storeNewTotalCalorie(lastCardElement[0]);
+
     }
 }
 
@@ -96,7 +109,7 @@ function onLoadFunc() {
 }
 
 // backBtnFunc
-function backBtnFunc(e) {
+function backBtnFunc() {
     // empty input values
     add_input.value = '';
     calorie_input.value = '';
@@ -116,5 +129,21 @@ function buttonsFunc(e) {
 
         // change total calorie value
         handleFunc.changeTotalCalValue();
+    } else if (e.target.classList.contains('btn-update')) {
+        const lastCardElement = currentCardElement.slice(currentCardElement.length - 1);
+        // update card values
+        handleFunc.updateCard(lastCardElement[0]);
+
+        // update locale storage values
+        handleFunc.updateLocalStorage(lastCardElement[0]);
+
+        // update total value in edited
+        handleFunc.updateTotalCalorieEdited(lastCardElement[0]);
     }
+}
+
+// clearAllFunc
+function clearAllFunc() {
+    // clear all items
+    handleFunc.clearAllItems();
 }

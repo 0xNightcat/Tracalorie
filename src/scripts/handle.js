@@ -14,6 +14,7 @@ let handleFunc = (() => {
             this.itemId = 0;
             this.currentId = 0;
             this.currentCard = [];
+            this.newTotalCalorie = [];
         }
 
         // add meal
@@ -106,28 +107,32 @@ let handleFunc = (() => {
 
         // get total calories from local storage
         getTotalCalFromLs() {
-            // get parsed key from local storage
-            const parsedKey = JSON.parse(localStorage.getItem('Meals'));
-            const keyArray = Array.from(parsedKey);
+            if (localStorage.getItem('Meals') !== null) {
+                // get parsed key from local storage
+                const parsedKey = JSON.parse(localStorage.getItem('Meals'));
+                const keyArray = Array.from(parsedKey);
 
-            keyArray.forEach(item => {
-                // get parsed values
-                let totalCalories = parseInt(this.total_calories.textContent);
-                let calories = parseInt(item.calorie);
+                keyArray.forEach(item => {
+                    // get parsed values
+                    let totalCalories = parseInt(this.total_calories.textContent);
+                    let calories = parseInt(item.calorie);
 
-                // sum calories
-                totalCalories = (totalCalories + calories);
+                    // sum calories
+                    totalCalories = (totalCalories + calories);
 
-                // append sum into total calories
-                this.total_calories.textContent = totalCalories;
-            })
+                    // append sum into total calories
+                    this.total_calories.textContent = totalCalories;
+                })
+            }
         }
 
         // save current card id
         currentCardIdSave(event) {
+            // get card id
             const currentCardId = event.target.parentElement.parentElement.parentElement.id;
             const parseId = parseInt(currentCardId);
 
+            // store card id
             this.currentId = parseId;
         }
 
@@ -165,7 +170,7 @@ let handleFunc = (() => {
                 uiFunc.buttonsState('add');
 
                 // show alert when deleted
-                uiFunc.showAlert('meal has deleted', 'warning');
+                uiFunc.showAlert('Meal Has Been Deleted', 'warning');
 
                 // empty input values
                 this.add_input.value = '';
@@ -185,6 +190,99 @@ let handleFunc = (() => {
 
             // calculate total and deleted values
             this.total_calories.textContent = (totalCal - deletedCalValue);
+        }
+
+        // update card
+        updateCard(currentCard) {
+            // get all cards
+            const cards = this.itemsInfo_elem.querySelectorAll('.card');
+            const cardsArray = Array.from(cards);
+
+            // check and remove card
+            cardsArray.forEach(item => {
+                if (currentCard.id == item.id) {
+                    // get card values
+                    const mealValue = item.querySelector('.card-body .meal-name');
+                    const calorieAmount = item.querySelector('#cal-amount');
+
+                    // set new inputs into selected card
+                    mealValue.textContent = this.add_input.value;
+                    calorieAmount.textContent = this.calorie_input.value;
+
+                    // change buttons state
+                    uiFunc.buttonsState('add');
+
+                    // empty input values
+                    this.add_input.value = '';
+                    this.calorie_input.value = '';
+
+                    // show alert for update card
+                    uiFunc.showAlert('Card Has Successfuly Updated', 'info');
+                }
+            })
+        }
+
+        // update local storage values
+        updateLocalStorage(currentCard) {
+            // get parsed key from local storage
+            const parseKey = JSON.parse(localStorage.getItem('Meals'));
+            const keyArray = Array.from(parseKey);
+
+            keyArray.forEach(item => {
+                // check if ids are the same value
+                if (currentCard.id == item.id) {
+                    // get new meal and calorie values
+                    const mealValue = currentCard.querySelector('.meal-name');
+                    const calorieValue = currentCard.querySelector('#cal-amount');
+
+                    // set new values into cards
+                    item.meal = mealValue.textContent;
+                    item.calorie = calorieValue.textContent;
+
+                }
+                // set new values into local storage
+                localStorage.setItem('Meals', JSON.stringify(keyArray));
+            })
+        }
+
+        // store new total calorie
+        storeNewTotalCalorie(currentCard) {
+            // get total calorie and card calorie value
+            const totalCalorie = parseInt(this.total_calories.textContent);
+            const calorieValue = parseInt(currentCard.querySelector('#cal-amount').textContent);
+
+            // store new total calorie
+            this.newTotalCalorie.push(totalCalorie - calorieValue);
+        }
+
+        // update total calorie when edited
+        updateTotalCalorieEdited(currentCard) {
+            // get new total calorie and card calorie value
+            const newTotalCal = this.newTotalCalorie.slice(this.newTotalCalorie.length - 1);
+            const calorieValue = parseInt(currentCard.querySelector('#cal-amount').textContent);
+
+            // set new value into total calorie
+            this.total_calories.textContent = (newTotalCal[0] + calorieValue);
+        }
+
+        // clear all items
+        clearAllItems() {
+            const allCards = this.itemsInfo_elem.querySelectorAll('.card');
+            const cardsArray = Array.from(allCards);
+
+            cardsArray.forEach(item => {
+                // delete all items
+                item.remove();
+
+                // delete all items from local storage
+                localStorage.removeItem('Meals');
+
+                // show alert
+                uiFunc.showAlert('All Meals Have Been Deleted', 'danger');
+
+                // empty total calorie
+                this.total_calories.textContent = 0;
+            })
         }
 
     }
@@ -226,6 +324,21 @@ let handleFunc = (() => {
         changeTotalCalValue: function() {
             return handle.changeTotalCalValue();
         },
+        updateCard: function(currentCard) {
+            return handle.updateCard(currentCard);
+        },
+        updateLocalStorage: function(currentCard) {
+            return handle.updateLocalStorage(currentCard);
+        },
+        storeNewTotalCalorie: function(currentCard) {
+            return handle.storeNewTotalCalorie(currentCard);
+        },
+        updateTotalCalorieEdited: function(currentCard) {
+            return handle.updateTotalCalorieEdited(currentCard);
+        },
+        clearAllItems: function() {
+            return handle.clearAllItems();
+        }
     }
 
 })()
