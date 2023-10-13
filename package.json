@@ -1,7 +1,7 @@
 {
     "name": "prj_1",
     "version": "1.0.0",
-    "description": "first practice project",
+    "description": "Tracalorie App",
     "private": true,
     "scripts": {
         "build:pro": "webpack --mode=production",
